@@ -1,0 +1,28 @@
+import { update } from "./users.services.js";
+import { isValidEmail, isValidPassword } from "../../utils/validation.js";
+import { AppError } from "../../utils/AppError.js";
+
+export async function updateController(req, res, next) {
+  const { name, email, password } = req.body;
+  const id = req.user.id;
+
+  if (email && !isValidEmail(email)) {
+    throw new AppError("Email is invalid", 400);
+  }
+
+  if (password && !isValidPassword(password)) {
+    throw new AppError("Password is invalid", 400);
+  }
+
+  try {
+    const updatedUser = await update({ name, email, password, id });
+
+    return res.status(200).json({
+      success: true,
+      message: "User updated successfully",
+      data: updatedUser,
+    });
+  } catch (error) {
+    next(error);
+  }
+}

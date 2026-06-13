@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { AppError } from "../utils/AppError";
+import { AppError } from "../utils/AppError.js";
 
 export default function authenticate(req, res, next) {
   const token = req.cookies.token;
