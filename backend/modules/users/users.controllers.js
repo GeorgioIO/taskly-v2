@@ -1,4 +1,7 @@
-import { update } from "./users.services.js";
+import {
+  remove as removeUser,
+  update as updateUser,
+} from "./users.services.js";
 import { isValidEmail, isValidPassword } from "../../utils/validation.js";
 import { AppError } from "../../utils/AppError.js";
 
@@ -15,12 +18,28 @@ export async function updateController(req, res, next) {
   }
 
   try {
-    const updatedUser = await update({ name, email, password, id });
+    const updatedUser = await updateUser({ name, email, password, id });
 
     return res.status(200).json({
       success: true,
       message: "User updated successfully",
       data: updatedUser,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function deleteController(req, res, next) {
+  const id = req.user.id;
+
+  try {
+    const affectedRows = await removeUser(id);
+
+    return res.status(200).json({
+      success: true,
+      message: "User deleted successfully",
+      data: null,
     });
   } catch (error) {
     next(error);

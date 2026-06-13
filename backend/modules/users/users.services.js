@@ -39,3 +39,9 @@ export async function update(data) {
 
   return result.rows[0];
 }
+
+export async function remove(id) {
+  const result = await pool.query("DELETE FROM users WHERE id = $1", [id]);
+
+  return result.rowCount;
+}
