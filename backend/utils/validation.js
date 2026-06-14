@@ -28,3 +28,8 @@ export function hasValidImageExtension(url) {
   if (imageExtensions.test(url)) return true;
   return false;
 }
+
+export function isValidID(id) {
+  // 1
+  return !Number.isInteger(id) || Number.isInteger(id) <= 0;
+}

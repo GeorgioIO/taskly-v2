@@ -1,10 +1,14 @@
 import { AppError } from "../../utils/AppError.js";
 import {
   hasValidImageExtension,
+  isValidID,
   isValidLength,
   isValidURL,
 } from "../../utils/validation.js";
-import { create } from "./projects.services.js";
+import {
+  create as createProject,
+  remove as removeProject,
+} from "./projects.services.js";
 
 export async function createController(req, res, next) {
   const { title, description, banner } = req.body;
@@ -42,7 +46,7 @@ export async function createController(req, res, next) {
 
   // Request
   try {
-    const insertedProject = await create({
+    const insertedProject = await createProject({
       title,
       description,
       banner,
@@ -53,6 +57,27 @@ export async function createController(req, res, next) {
       success: true,
       message: "Project created successfully",
       data: insertedProject,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function deleteController(req, res, next) {
+  const projectId = req.params.id;
+  const userId = req.user.id;
+
+  try {
+    const deletedId = await removeProject({ projectId, userId });
+
+    if (deletedId === 0) {
+      throw new AppError("No rows found", 404);
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Project deleted successfully",
+      data: null,
     });
   } catch (error) {
     next(error);
