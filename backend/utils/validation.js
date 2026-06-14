@@ -8,3 +8,23 @@ export function isValidPassword(password) {
 
   return passwordRegex.test(password);
 }
+
+export function isValidLength(value, maxLength) {
+  return value.length <= maxLength;
+}
+
+export function isValidURL(url) {
+  try {
+    const parsed = new URL(url);
+    if (["http:", "https:"].includes(parsed.protocol)) return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+export function hasValidImageExtension(url) {
+  const imageExtensions = /\.(jpg|jpeg|png|webp)$/i;
+
+  if (imageExtensions.test(url)) return true;
+  return false;
+}
