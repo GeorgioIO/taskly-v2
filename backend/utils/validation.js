@@ -5,6 +5,8 @@ import isSameOrAfter from "dayjs/plugin/isSameOrAfter.js";
 dayjs.extend(customParseFormat);
 dayjs.extend(isSameOrAfter);
 
+dayjs.extend(customParseFormat);
+
 export function isValidEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
