@@ -89,7 +89,24 @@ export async function createTask(data) {
   return result.rows[0];
 }
 
-// export async function getTasks(projectId)
-// {
-//   const result = awia
-// }
+export async function getTasks(data) {
+  const { projectId, userId } = data;
+  const result = await pool.query(
+    `
+    SELECT 
+      t.id,
+      t.title,
+      t.description,
+      status,
+      priority,
+      t.created_at,
+      due_date
+    FROM tasks t
+    JOIN projects p ON t.project_id = p.id
+    WHERE p.user_id = $1 AND p.id = $2
+    `,
+    [userId, projectId],
+  );
+
+  return result.rows;
+}

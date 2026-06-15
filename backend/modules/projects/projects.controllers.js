@@ -13,6 +13,7 @@ import {
   createTask,
   get as getProject,
   getAll as getProjects,
+  getTasks,
   remove as removeProject,
   update as updateProject,
 } from "./projects.services.js";
@@ -233,6 +234,27 @@ export async function createTaskController(req, res, next) {
       success: true,
       message: "Task created successfully",
       data: task,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function getTasksController(req, res, next) {
+  const projectId = req.params.id;
+  const userId = req.user.id;
+
+  if (!isValidID(projectId)) {
+    throw new AppError("Invalid given id", 400);
+  }
+
+  try {
+    const tasks = await getTasks({ projectId, userId });
+
+    return res.status(200).json({
+      success: true,
+      message: "Tasks fetched successfully",
+      data: tasks,
     });
   } catch (error) {
     next(error);

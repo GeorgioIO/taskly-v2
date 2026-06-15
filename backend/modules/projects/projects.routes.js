@@ -5,6 +5,7 @@ import {
   deleteController,
   getProjectController,
   getProjectsController,
+  getTasksController,
   updateController,
 } from "./projects.controllers.js";
 import authenticate from "../../middlewares/authenticate.js";
@@ -19,3 +20,4 @@ router.get("/", getProjectsController);
 router.get("/:id", getProjectController);
 router.put("/:id", updateController);
 router.post("/:id/tasks", createTaskController);
+router.get("/:id/tasks", getTasksController);
