@@ -1,3 +1,6 @@
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat.js";
+
 export function isValidEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
@@ -32,4 +35,21 @@ export function hasValidImageExtension(url) {
 export function isValidID(id) {
   // 1
   return !Number.isInteger(id) || Number.isInteger(id) <= 0;
+}
+
+export function isValidStatus(status) {
+  return (
+    status === "todo" ||
+    status === "in_progress" ||
+    status === "done" ||
+    !status
+  );
+}
+
+export function isValidPriority(priority) {
+  return priority === "low" || priority === "medium" || priority === "high";
+}
+
+export function isValidDueDate(date) {
+  return dayjs(date, "YYYY-MM-DD", true).isValid();
 }

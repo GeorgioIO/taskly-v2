@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createController,
+  createTaskController,
   deleteController,
   getProjectController,
   getProjectsController,
@@ -17,3 +18,4 @@ router.delete("/:id", deleteController);
 router.get("/", getProjectsController);
 router.get("/:id", getProjectController);
 router.put("/:id", updateController);
+router.post("/:id/tasks", createTaskController);

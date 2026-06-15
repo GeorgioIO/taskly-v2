@@ -76,3 +76,20 @@ export async function get(data) {
 
   return result;
 }
+
+export async function createTask(data) {
+  const { projectId, title, description, status, priority, dueDate } = data;
+
+  const result = await pool.query(
+    `INSERT INTO tasks (project_id , title , description , status , priority , due_date) 
+    VALUES ($1 , $2 , $3 , $4 , $5 , $6) RETURNING *;`,
+    [projectId, title, description, status, priority, dueDate],
+  );
+
+  return result.rows[0];
+}
+
+// export async function getTasks(projectId)
+// {
+//   const result = awia
+// }
