@@ -8,7 +8,6 @@ export async function update(data) {
   const fields = [];
   const params = [];
   let paramsCounter = 1;
-  let conditions = "";
 
   if (name) {
     fields.push(`name = $${paramsCounter}`);
@@ -31,7 +30,7 @@ export async function update(data) {
   }
 
   params.push(id);
-  conditions = fields.join(",");
+  const conditions = fields.join(",");
 
   const query = `UPDATE users SET ${conditions} WHERE id = $${paramsCounter} RETURNING id , name , email`;
 
