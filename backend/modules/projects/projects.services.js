@@ -76,37 +76,3 @@ export async function get(data) {
 
   return result;
 }
-
-export async function createTask(data) {
-  const { projectId, title, description, status, priority, dueDate } = data;
-
-  const result = await pool.query(
-    `INSERT INTO tasks (project_id , title , description , status , priority , due_date) 
-    VALUES ($1 , $2 , $3 , $4 , $5 , $6) RETURNING *;`,
-    [projectId, title, description, status, priority, dueDate],
-  );
-
-  return result.rows[0];
-}
-
-export async function getTasks(data) {
-  const { projectId, userId } = data;
-  const result = await pool.query(
-    `
-    SELECT 
-      t.id,
-      t.title,
-      t.description,
-      status,
-      priority,
-      t.created_at,
-      due_date
-    FROM tasks t
-    JOIN projects p ON t.project_id = p.id
-    WHERE p.user_id = $1 AND p.id = $2
-    `,
-    [userId, projectId],
-  );
-
-  return result.rows;
-}
