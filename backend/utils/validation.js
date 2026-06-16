@@ -59,3 +59,7 @@ export function isValidDueDate(date) {
     !dayjs(date).isBefore(dayjs(), "day")
   );
 }
+
+export function isEmpty(value) {
+  return !value || value.trim() !== "";
+}
