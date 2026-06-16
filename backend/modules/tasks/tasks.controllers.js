@@ -21,13 +21,13 @@ export async function createTaskController(req, res, next) {
   if (isEmpty(title)) {
     throw new AppError("Title is required", 400);
   } else if (!isValidLength(title, 150)) {
-    throw new AppError("Title must be maximum 150 characters");
+    throw new AppError("Title must be maximum 150 characters", 400);
   }
 
   if (isEmpty(description)) {
     throw new AppError("Description is required", 400);
   } else if (!isValidLength(description, 255)) {
-    throw new AppError("Description must be maximum 255 characters");
+    throw new AppError("Description must be maximum 255 characters", 400);
   }
 
   if (!isValidStatus(status)) {
@@ -123,10 +123,6 @@ export async function updateController(req, res, next) {
     isEmpty(dueDate)
   ) {
     throw new AppError("No fields set to be updated", 400);
-  }
-
-  if (!isValidID(projectId) || !isValidID(taskId)) {
-    throw new AppError("Invalid id given", 400);
   }
 
   if (!isEmpty(title) && !isValidLength(title, 150)) {

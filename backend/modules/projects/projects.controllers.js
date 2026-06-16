@@ -1,6 +1,7 @@
 import { AppError } from "../../utils/AppError.js";
 import {
   hasValidImageExtension,
+  isEmpty,
   isValidID,
   isValidLength,
   isValidURL,
@@ -18,19 +19,19 @@ export async function createController(req, res, next) {
   const userId = req.user.id;
 
   // Validation
-  if (!title) {
+  if (isEmpty(title)) {
     throw new AppError("Title is required.", 400);
   } else if (!isValidLength(title, 100)) {
     throw new AppError("Title must be maximum 100 characters");
   }
 
-  if (!description) {
+  if (isEmpty(description)) {
     throw new AppError("Description is required.", 400);
   } else if (!isValidLength(description, 255)) {
     throw new AppError("Description must be maximum 255 characters");
   }
 
-  if (banner) {
+  if (!isEmpty(banner)) {
     if (!isValidURL(banner)) {
       throw new AppError("Url is invalid", 400);
     }
@@ -130,22 +131,26 @@ export async function getProjectController(req, res, next) {
 
 export async function updateController(req, res, next) {
   const { title, description, banner } = req.body;
-  const projectId = req.params.id;
+  const projectId = parseInt(req.params.id);
   const userId = req.user.id;
 
-  if (!title && !description) {
+  if (!isValidID(projectId)) {
+    throw new AppError("Invalid given id", 400);
+  }
+
+  if (isEmpty(title) && isEmpty(description)) {
     throw new AppError("Title and description are required", 400);
   }
 
-  if (title && !isValidLength(title, 100)) {
-    throw new AppError("Title is required", 400);
+  if (!isEmpty(title) && !isValidLength(title, 100)) {
+    throw new AppError("Title must be maximum 100 characters", 400);
   }
 
-  if (description && !isValidLength(description, 255)) {
-    throw new AppError("Description is required", 400);
+  if (!isEmpty(description) && !isValidLength(description, 255)) {
+    throw new AppError("Description must be maximum 255 characters", 400);
   }
 
-  if (banner) {
+  if (!isEmpty(banner)) {
     if (!isValidURL(banner)) {
       throw new AppError("Url is invalid", 400);
     }

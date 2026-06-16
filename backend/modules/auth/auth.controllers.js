@@ -1,12 +1,16 @@
 import { AppError } from "../../utils/AppError.js";
 import { login, register } from "./auth.services.js";
-import { isValidEmail, isValidPassword } from "../../utils/validation.js";
+import {
+  isValidEmail,
+  isValidPassword,
+  isEmpty,
+} from "../../utils/validation.js";
 
 export async function registerController(req, res, next) {
   // Get data
   const { name, email, password } = req.body;
 
-  if (!name || !email || !password) {
+  if (isEmpty(name) || isEmpty(email) || isEmpty(password)) {
     throw new AppError("All fields are required", 400);
   }
 
@@ -34,7 +38,7 @@ export async function loginController(req, res, next) {
   const { email, password } = req.body;
 
   // Validate data
-  if (!email || !password) {
+  if (isEmpty(email) || isEmpty(password)) {
     throw new AppError("All fields are required", 400);
   }
 

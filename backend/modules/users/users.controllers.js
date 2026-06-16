@@ -2,18 +2,26 @@ import {
   remove as removeUser,
   update as updateUser,
 } from "./users.services.js";
-import { isValidEmail, isValidPassword } from "../../utils/validation.js";
+import {
+  isEmpty,
+  isValidEmail,
+  isValidPassword,
+} from "../../utils/validation.js";
 import { AppError } from "../../utils/AppError.js";
 
 export async function updateController(req, res, next) {
   const { name, email, password } = req.body;
   const id = req.user.id;
 
-  if (email && !isValidEmail(email)) {
+  if (isEmpty(name) && isEmpty(email) && isEmpty(password)) {
+    throw new AppError("Atleast one field is required to update", 400);
+  }
+
+  if (!isEmpty(email) && !isValidEmail(email)) {
     throw new AppError("Email is invalid", 400);
   }
 
-  if (password && !isValidPassword(password)) {
+  if (!isEmpty(password) && !isValidPassword(password)) {
     throw new AppError("Password is invalid", 400);
   }
 
