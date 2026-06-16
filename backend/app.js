@@ -11,6 +11,8 @@ import { router as authRoutes } from "./modules/auth/auth.routes.js";
 import { router as userRoutes } from "./modules/users/users.routes.js";
 import { router as projectRoutes } from "./modules/projects/projects.routes.js";
 import errorHandler from "./middlewares/errorHandler.js";
+import generalLimiter from "./middlewares/generalLimiter.js";
+import authenticationLimiter from "./middlewares/authenticationLimiter.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -19,6 +21,7 @@ app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
+app.use(generalLimiter);
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/users", userRoutes);
 app.use("/api/v1/projects", projectRoutes);

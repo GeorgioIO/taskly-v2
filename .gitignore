@@ -1,9 +1,10 @@
-backend/node_modules/
-frontend/node_modules/
+# Dependency directories
+**/node_modules/
 
-backend/.env
-frontend/.env
-frontend/.env.local
+# Environment variables
+**/.env
+**/.env.local
 
-frontend/dist/
-frontend/build/
+# Production build outputs
+**/dist/
+**/build/
