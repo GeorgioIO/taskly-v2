@@ -23,7 +23,7 @@ export default function errorHandler(error, req, res, next) {
       // foreign key violation
       case "23503":
         statusCode = 400;
-        message: "Referenced resource does not exist";
+        message = "Referenced resource does not exist";
         break;
 
       // check constraint violation

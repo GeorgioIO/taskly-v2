@@ -79,7 +79,7 @@ export async function deleteController(req, res, next) {
     const deletedId = await removeProject({ projectId, userId });
 
     if (deletedId === 0) {
-      throw new AppError("No rows found", 404);
+      throw new AppError("No project found", 404);
     }
 
     return res.status(200).json({
@@ -181,7 +181,7 @@ export async function updateController(req, res, next) {
     });
 
     if (rowCount === 0) {
-      throw new AppError("Updating project failed", 500);
+      throw new AppError("No project found", 404);
     }
 
     return res.status(200).json({

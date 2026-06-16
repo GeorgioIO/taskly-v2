@@ -52,7 +52,6 @@ export async function update(data) {
   const query = `UPDATE projects SET ${conditions} WHERE id = $${paramsCounter} AND user_id = $${paramsCounter + 1} RETURNING *`;
   params.push(projectId, userId);
 
-  console.log(query);
   const result = await pool.query(query, params);
 
   return result;
