@@ -37,6 +37,8 @@ export function hasValidImageExtension(url) {
 
 export function isValidID(id) {
   // 1
+  if (!id) return false;
+
   const numId = Number(id);
   return Number.isInteger(numId) && numId > 0;
 }

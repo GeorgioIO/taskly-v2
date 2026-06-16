@@ -19,10 +19,6 @@ export async function createTaskController(req, res, next) {
   const projectId = req.params.id;
   const userId = req.user.id;
 
-  if (!isValidID(projectId)) {
-    throw new AppError("Invalid project id", 400);
-  }
-
   if (isEmpty(title)) {
     throw new AppError("Title is required", 400);
   } else if (!isValidLength(title, 150)) {
@@ -78,10 +74,6 @@ export async function getTasksController(req, res, next) {
   const projectId = req.params.id;
   const userId = req.user.id;
 
-  if (!isValidID(projectId)) {
-    throw new AppError("Invalid given id", 400);
-  }
-
   try {
     const tasks = await getTasks({ projectId, userId });
 
@@ -98,10 +90,6 @@ export async function getTasksController(req, res, next) {
 export async function deleteController(req, res, next) {
   const { id: projectId, taskId } = req.params;
   const userId = req.user.id;
-
-  if (!isValidID(projectId) || !isValidID(taskId)) {
-    throw new AppError("Invalid given id", 400);
-  }
 
   try {
     const { rowCount } = await deleteTask({ projectId, taskId, userId });
@@ -124,10 +112,6 @@ export async function updateController(req, res, next) {
   const { id: projectId, taskId } = req.params;
   const { title, description, status, priority, dueDate } = req.body;
   const userId = req.user.id;
-
-  if (!isValidID(projectId) || !isValidID(taskId)) {
-    throw new AppError("Invalid given id", 400);
-  }
 
   if (
     isEmpty(title) &&

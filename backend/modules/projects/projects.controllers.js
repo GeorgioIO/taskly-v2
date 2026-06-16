@@ -71,10 +71,6 @@ export async function deleteController(req, res, next) {
   const projectId = req.params.id;
   const userId = req.user.id;
 
-  if (!isValidID(projectId)) {
-    throw new AppError("Invalid project id", 400);
-  }
-
   try {
     const deletedId = await removeProject({ projectId, userId });
 
@@ -112,10 +108,6 @@ export async function getProjectController(req, res, next) {
   const projectId = req.params.id;
   const userId = req.user.id;
 
-  if (!isValidID(projectId)) {
-    throw new AppError("Invalid given id", 400);
-  }
-
   try {
     const { rows, rowCount } = await getProject({ projectId, userId });
 
@@ -137,10 +129,6 @@ export async function updateController(req, res, next) {
   const { title, description, banner } = req.body;
   const projectId = req.params.id;
   const userId = req.user.id;
-
-  if (!isValidID(projectId)) {
-    throw new AppError("Invalid given id", 400);
-  }
 
   if (isEmpty(title) && isEmpty(description)) {
     throw new AppError("Title and description are required", 400);
