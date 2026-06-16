@@ -71,6 +71,10 @@ export async function deleteController(req, res, next) {
   const projectId = req.params.id;
   const userId = req.user.id;
 
+  if (!isValidID(projectId)) {
+    throw new AppError("Invalid project id", 400);
+  }
+
   try {
     const deletedId = await removeProject({ projectId, userId });
 
@@ -131,7 +135,7 @@ export async function getProjectController(req, res, next) {
 
 export async function updateController(req, res, next) {
   const { title, description, banner } = req.body;
-  const projectId = parseInt(req.params.id);
+  const projectId = req.params.id;
   const userId = req.user.id;
 
   if (!isValidID(projectId)) {

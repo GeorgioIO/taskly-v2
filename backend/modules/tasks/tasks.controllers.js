@@ -18,6 +18,10 @@ export async function createTaskController(req, res, next) {
   const { title, description, status, priority, dueDate } = req.body;
   const projectId = req.params.id;
 
+  if (!isValidID(projectId)) {
+    throw new AppError("Invalid project id", 400);
+  }
+
   if (isEmpty(title)) {
     throw new AppError("Title is required", 400);
   } else if (!isValidLength(title, 150)) {
@@ -114,6 +118,10 @@ export async function updateController(req, res, next) {
   const { id: projectId, taskId } = req.params;
   const { title, description, status, priority, dueDate } = req.body;
   const userId = req.user.id;
+
+  if (!isValidID(projectId) || !isValidID(taskId)) {
+    throw new AppError("Invalid given id", 400);
+  }
 
   if (
     isEmpty(title) &&
