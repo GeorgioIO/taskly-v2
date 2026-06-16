@@ -1,15 +1,30 @@
 import pool from "../../config/db.js";
 
 export async function create(data) {
-  const { projectId, title, description, status, priority, dueDate } = data;
+  const { projectId, userId, title, description, status, priority, dueDate } =
+    data;
 
   const result = await pool.query(
-    `INSERT INTO tasks (project_id , title , description , status , priority , due_date) 
-    VALUES ($1 , $2 , $3 , $4 , $5 , $6) RETURNING *;`,
-    [projectId, title, description, status, priority, dueDate],
+    `
+      INSERT INTO tasks  (project_id , title , description , status , priority , due_date) 
+      SELECT $1 , $2 , $3 , $4 , $5 , $6
+      FROM projects p 
+      WHERE p.id = $7
+      AND p.user_id = $8
+      RETURNING *;`,
+    [
+      projectId,
+      title,
+      description,
+      status,
+      priority,
+      dueDate,
+      projectId,
+      userId,
+    ],
   );
 
-  return result.rows[0];
+  return result;
 }
 
 export async function getAll(data) {

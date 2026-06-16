@@ -17,6 +17,7 @@ import { AppError } from "../../utils/AppError.js";
 export async function createTaskController(req, res, next) {
   const { title, description, status, priority, dueDate } = req.body;
   const projectId = req.params.id;
+  const userId = req.user.id;
 
   if (!isValidID(projectId)) {
     throw new AppError("Invalid project id", 400);
@@ -49,8 +50,9 @@ export async function createTaskController(req, res, next) {
   }
 
   try {
-    const task = await createTask({
+    const { rows, rowCount } = await createTask({
       projectId,
+      userId,
       title,
       description,
       status,
@@ -58,10 +60,14 @@ export async function createTaskController(req, res, next) {
       dueDate,
     });
 
+    if (rowCount === 0) {
+      throw new AppError("No project found", 404);
+    }
+
     return res.status(201).json({
       success: true,
       message: "Task created successfully",
-      data: task,
+      data: rows[0],
     });
   } catch (error) {
     next(error);
