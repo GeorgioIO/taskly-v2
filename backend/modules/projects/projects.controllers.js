@@ -25,9 +25,7 @@ export async function createController(req, res, next) {
     throw new AppError("Title must be maximum 100 characters");
   }
 
-  if (isEmpty(description)) {
-    throw new AppError("Description is required.", 400);
-  } else if (!isValidLength(description, 255)) {
+  if (!isEmpty(description) && !isValidLength(description, 255)) {
     throw new AppError("Description must be maximum 255 characters");
   }
 
@@ -130,7 +128,7 @@ export async function updateController(req, res, next) {
   const projectId = req.params.id;
   const userId = req.user.id;
 
-  if (isEmpty(title) && isEmpty(description)) {
+  if (isEmpty(title)) {
     throw new AppError("Title and description are required", 400);
   }
 
