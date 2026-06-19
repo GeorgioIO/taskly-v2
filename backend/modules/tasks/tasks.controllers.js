@@ -25,9 +25,7 @@ export async function createTaskController(req, res, next) {
     throw new AppError("Title must be maximum 150 characters", 400);
   }
 
-  if (isEmpty(description)) {
-    throw new AppError("Description is required", 400);
-  } else if (!isValidLength(description, 255)) {
+  if (!isEmpty(description) && !isValidLength(description, 255)) {
     throw new AppError("Description must be maximum 255 characters", 400);
   }
 
